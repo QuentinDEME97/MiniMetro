@@ -20,41 +20,6 @@ class View:
             plt.scatter(x + 3, y, s=50, color='y', zorder=2, marker=station.marker)
             print("Drawing Station and dot on {} {}".format(x,y))
 
-    def offset(coordinates, distance):
-        coordinates = iter(coordinates)
-        x1, y1 = coordinates.next()
-        z = distance
-        points = []
-        for x2, y2 in coordinates:
-            # tangential slope approximation
-            try:
-                slope = (y2 - y1) / (x2 - x1)
-                # perpendicular slope
-                pslope = -1 / slope  # (might be 1/slope depending on direction of travel)
-            except ZeroDivisionError:
-                continue
-            mid_x = (x1 + x2) / 2
-            mid_y = (y1 + y2) / 2
-
-            sign = ((pslope > 0) == (x1 > x2)) * 2 - 1
-
-            # if z is the distance to your parallel curve,
-            # then your delta-x and delta-y calculations are:
-            #   z**2 = x**2 + y**2
-            #   y = pslope * x
-            #   z**2 = x**2 + (pslope * x)**2
-            #   z**2 = x**2 + pslope**2 * x**2
-            #   z**2 = (1 + pslope**2) * x**2
-            #   z**2 / (1 + pslope**2) = x**2
-            #   z / (1 + pslope**2)**0.5 = x
-
-            delta_x = sign * z / ((1 + pslope ** 2) ** 0.5)
-            delta_y = pslope * delta_x
-
-            points.append((mid_x + delta_x, mid_y + delta_y))
-            x1, y1 = x2, y2
-        return points
-
     def draw_lines(self, lines):
         width = 2
         for line in lines:
@@ -99,21 +64,3 @@ class View:
         self.draw_lines(self.world.w_lines)
 
         plt.show()
-        #for station in self.world.w_stations:
-            # print("Marker {}".format(station.marker))
-            # x, y  = station.position[0], station.position[1]
-            # # Draw lines
-            # if i != 0:
-            #     plt.plot([p.position[0], x], [p.position[1], y], color="#0000FF", zorder=1)
-            # # Draw stations
-            # plt.scatter(x, y, s=100, color='Black',zorder=2, marker=station.marker)
-            # #circle = plt.Circle((x + 3, y), radius=1, fc='y')
-            # #rectangle = plt.Rectangle((x + 4.5, y - 1), 2, 2, fc='y')
-            # #plt.gca().add_patch(rectangle)
-            # #plt.gca().add_patch(circle)
-            # plt.scatter(x + 3, y, s=50, color='y', zorder=2, marker=station.marker)
-            # plt.scatter(x + 6, y, s=50, color='y', zorder=2, marker=p.marker)
-            # i += 1
-            # p = station
-            # print("Drawing Station and dot on {} {}".format(x,y))
-        ### plt.axline((0, 0), (100, 100), color="#FF0000")
