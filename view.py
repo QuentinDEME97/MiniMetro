@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import math
 import numpy as np
+from sympy import Line, Point
 
 class View:
 
@@ -24,6 +25,7 @@ class View:
         width = 2
         for line in lines:
             print("Line == \n",line)
+            print("TYPE == \n", type(line))
             p = line.stations[0]
             for i in range(1,len(line.stations)):
                 station = line.stations[i]
@@ -51,6 +53,19 @@ class View:
                 else:
                     plt.plot(np.array(x)-0.7, np.array(y), color=line.color, zorder=1,linewidth=width)
                 plt.scatter((p_x+s_x)/2,(p_y+s_y)/2,color="Red")
+                # Use Sympy
+                # Calcul de la droite perpendiculaire
+                mid = Point((p_x+s_x)/2,(p_y+s_y)/2)
+                mline = Line(Point(p_x,p_y),Point(s_x,s_y))
+                plt.scatter(p_x,p_y, color="Purple",zorder=3)
+                plt.scatter(s_x, s_y, color="Purple",zorder=3)
+                per = mline.perpendicular_line(mid)
+                print("Droite :", per.coefficients)
+                # Point en 10
+                a,b,c = per.coefficients
+                plt.plot((per.p1.x,per.p2.x), (per.p1.y,per.p2.y), color="Cyan", zorder=3)
+                print("PER",per)
+                print("PER", per.equation(x='10'))
                 p = station
 
     def draw(self):

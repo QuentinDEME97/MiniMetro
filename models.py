@@ -2,7 +2,8 @@ import random
 from typing import List
 from itertools import count
 
-colors = ["#f0cb16","#eb2827","#1d347e","#019ad1","#008d3d"]
+colors = ["#f0cb16", "#eb2827", "#1d347e", "#019ad1", "#008d3d"]
+
 
 class World:
 
@@ -15,10 +16,10 @@ class World:
         # The network map will be a dict {<Lines, Stations>}
 
     def add_station_random(self):
-        x = random.randint(0,100)
-        y = random.randint(0,100)
+        x = random.randint(0, 100)
+        y = random.randint(0, 100)
         marker = self.markers[random.randint(0, len(self.markers))]
-        self.w_stations.append(Station(x,y, marker))
+        self.w_stations.append(Station(x, y, marker))
 
     def add_stations_random(self, n):
         for i in range(n):
@@ -26,7 +27,7 @@ class World:
 
     def add_station(self, x, y, marker_index=None):
         if marker_index is None:
-            index = random.randint(0, len(self.markers) -1)
+            index = random.randint(0, len(self.markers) - 1)
             print(index)
             marker = self.markers[index]
         else:
@@ -38,8 +39,8 @@ class World:
     def add_line(self, line):
         self.w_lines.append(line)
 
-class Station:
 
+class Station:
     _ids = count(0)
 
     def __init__(self, x, y, marker):
@@ -50,7 +51,8 @@ class Station:
     def __repr__(self):
         return "{} : {}, {}".format(self.id, self.position, self.marker)
 
-class Line:
+
+class MetroLine:
 
     def __init__(self, color, style):
         self.color = color
@@ -62,11 +64,10 @@ class Line:
             self.stations.append(station)
 
     def __repr__(self):
-        return "Line with {} station(s) ({})".format(len(self.stations),self.stations)
+        return "Line with {} station(s) ({})".format(len(self.stations), self.stations)
 
 
 class LineSegment:
-
     start: Station = None
     end: Station = None
 
@@ -78,17 +79,18 @@ class LineSegment:
     def build_id(self):
         min_id = min(self.start.id, self.end.id)
         max_id = max(self.start.id, self.end.id)
-        return "{}_{}".format(min_id,max_id)
+        return "{}_{}".format(min_id, max_id)
+
 
 class Metro:
-
     current_segment: LineSegment = None
     wagons = [];
+
     def __init__(self):
         pass
 
-class Wagon(Metro):
 
+class Wagon(Metro):
     metro: Metro = None
 
     def __init__(self):

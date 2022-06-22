@@ -11,11 +11,11 @@ def example_2_lines_3_stations():
     s5 = world.add_station(100, 0, 7)  # p
     # colors = ["#f0cb16", "#eb2827", "#1d347e", "#019ad1", "#008d3d"]
     ls = ['-', '--', '-.', ':']
-    line_a = Line("#f0cb16",'-')
+    line_a = MetroLine("#f0cb16",'-')
     line_a.add_stations([s1, s2, s4])
-    line_b = Line("#1d347e",'--')
+    line_b = MetroLine("#1d347e",'--')
     line_b.add_stations([s1, s3])
-    line_c = Line("#019ad1",'-.')
+    line_c = MetroLine("#019ad1",'-.')
     line_c.add_stations([s5, s1, s2, s4])
     world.add_line(line_a)
     world.add_line(line_b)
